@@ -1,0 +1,31 @@
+floating button when select the text -- img
+
+
+popup buttons - notesshow and all design
+hightlight saved text
+
+
+icon
+
+
+delete
+context menu to view all notes of website
+if note already exsists XXX
+give all notes in options page
+save time also
+
+add all the comments at every steps
+
+
+bugs : notification coming more then once
+remove btn on new selection
+
+
+
+
+solved;
+show notes only for the current page
+add note working only after second click
+not getting last note when set note in different note
+note saved mesage --- notification
+hostname

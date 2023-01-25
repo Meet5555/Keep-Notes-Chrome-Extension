@@ -1,0 +1,50 @@
+{
+    "manifest_version": 3,
+    "name": "Keep Notes",
+    "version": "1.0.0",
+    "description": "Highlight and Save notes on any website and download it whenever you want!",
+    "icons": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    },
+    "action": {
+        "default_icon": "icon.png",
+        "default_title": "Keep Notes",
+        "default_popup": "popup/popup.html"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": [
+        "storage",
+        "tabs",
+        "nativeMessaging",
+        "alarms",
+        "notifications"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "js": [
+                "contentScript/contentScript.js"
+            ],
+            "css": [
+                "contentScript/contentScript.css"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "icon.png"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ]
+}
