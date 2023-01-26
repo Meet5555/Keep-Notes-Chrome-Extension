@@ -28,7 +28,6 @@ document.addEventListener("mouseup", (event) => {
 
 document.addEventListener("mousedown", (event) => {
     let addNoteBtn = document.getElementById("add-note-btn");
-    console.log(addNoteBtn);
     if (!text && addNoteBtn != null) {
         if (event.target.id != "add-note-btn") {
             document.body.removeChild(addNoteBtn);

@@ -1,9 +1,7 @@
-popup buttons - notesshow and all design
 icon - floating button when select the text -- img
 hightlight saved text
-context menu to view all notes of website --> two buttons and sliding bar for the same
-delete
-if note already exsists XXX
+context menu to view all notes of website || two buttons and sliding bar for the same
+delete notes
 read the note and google search the note
 add all the comments at every steps
 
@@ -12,7 +10,8 @@ bugs :
 
 
 
-solved;
+solved::
+
 show notes only for the current page
 add note working only after second click
 not getting last note when set note in different note
@@ -22,3 +21,5 @@ notification coming more then once
 save time also
 if user is new and not saved any note on any website then still download all notes button is showing
 when selecting some text and on addnote it is removing current btn and giving new btn
+popup buttons - notesshow and all design
+
