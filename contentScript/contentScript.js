@@ -4,6 +4,15 @@
 
 // }
 
+
+
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    if (changes.savedNotes) {
+        highlightText();
+    }
+});
+
+
 let text = "";
 document.addEventListener("mouseup", (event) => {
     text = window.getSelection().toString().trim();

@@ -37,15 +37,5 @@
                 "contentScript/contentScript.css"
             ]
         }
-    ],
-    "web_accessible_resources": [
-        {
-            "resources": [
-                "icon.png"
-            ],
-            "matches": [
-                "<all_urls>"
-            ]
-        }
     ]
 }

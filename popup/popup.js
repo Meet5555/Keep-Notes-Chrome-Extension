@@ -80,6 +80,7 @@ function readText(note) {
         }
     });
 }
+
 //download notes of current webpage in txt file
 let downloadButton = document.getElementById("download-notes");
 downloadButton.addEventListener("click", () => {
@@ -129,7 +130,7 @@ function downloadallNotes() {
             if (!notesByWebsite[note.websiteURL]) {
                 notesByWebsite[note.websiteURL] = "";
             }
-            notesByWebsite[note.websiteURL] += note.text + "\n";
+            notesByWebsite[note.websiteURL] += note.text + "\n\n";
         });
         let notesText = "";
         for (let url in notesByWebsite) {

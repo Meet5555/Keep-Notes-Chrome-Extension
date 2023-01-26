@@ -1,7 +1,6 @@
 icon - floating button when select the text -- img
-read the note and google search the note
-hightlight saved text
-delete notes
+ // google search the note
+hightlight saved text + delete notes
 context menu to view all notes of website || two buttons and sliding bar for the same
 
 add all the comments at every steps
@@ -13,13 +12,23 @@ bugs :
 solved::
 
 show notes only for the current page
+
 add note working only after second click
+
 not getting last note when set note in different note
+
 note saved mesage --- notification
+
 hostname
-notification coming more then once
+
+notification coming more then once : solved bye count variable
+
 save time also
+
 if user is new and not saved any note on any website then still download all notes button is showing
-when selecting some text and on addnote it is removing current btn and giving new btn
+
+solved bug : when selecting some text and on addnote it is removing current btn and giving new btn or when selecting some text but without add note if we start new selection then it will not working
+
 popup buttons - notesshow and all design
 
+read the note in popup - bugs like when reading ends changing button to play or on start change it to stop, etc
