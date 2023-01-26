@@ -9,8 +9,6 @@ add all the comments at every steps
 
 
 bugs : 
-when selecting some text and on addnote it is removing current btn and giving new btn
-
 
 
 
@@ -22,3 +20,5 @@ note saved mesage --- notification
 hostname
 notification coming more then once
 save time also
+if user is new and not saved any note on any website then still download all notes button is showing
+when selecting some text and on addnote it is removing current btn and giving new btn

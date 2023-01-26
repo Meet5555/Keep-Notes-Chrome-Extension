@@ -8,19 +8,20 @@ chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
         if (!savedNotes) {
             savedNotes = [];
         }
+        if (savedNotes.length === 0) {
+            document.getElementById("download-all-notes").classList.add("hide");
+        }
+        else {
+            document.getElementById("download-all-notes").classList.remove("hide");
+        }
         let lastNote = "";
         let timestamp = ""
         //Loop through savedNotes array with key of the object
-        console.log(savedNotes);
         for (let obj of savedNotes) {
             // Check if the website URL of the current tab matches the key of the object in the array
-            console.log(obj.websiteURL);
-            console.log(currentUrl);
             if (obj.websiteURL === currentUrl) {
-                console.log('Inside same url');
                 lastNote = obj.text;
-                timestamp = obj.timestamp
-                console.log(lastNote);
+                timestamp = obj.timestamp;
             }
         }
         if (lastNote === "") {
@@ -97,6 +98,9 @@ downloadAllButton.addEventListener("click", downloadallNotes);
 function downloadallNotes() {
     chrome.storage.sync.get(['savedNotes'], (res) => {
         let savedNotes = res.savedNotes;
+        if (!Array.isArray(savedNotes)) {
+            savedNotes = [];
+        }
         let notesByWebsite = {};
         savedNotes.forEach(note => {
             if (!notesByWebsite[note.websiteURL]) {
