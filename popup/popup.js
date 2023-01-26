@@ -30,6 +30,7 @@ chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
         } else {
             showLastNote("Recent Note:", lastNote, timestamp);
             document.getElementById("download-notes").classList.remove("hide");
+            readText(lastNote);
         }
     });
 })
@@ -57,6 +58,28 @@ function showLastNote(heading, note, timestamp) {
     noteContainer.appendChild(p);
 }
 
+//Read text 
+function readText(note) {
+    let noteContainer = document.getElementById("note-container");
+    let readBtn = document.createElement("button");
+    readBtn.id = "read-btn";
+    readBtn.innerHTML = '<img src="../play.png">';
+    noteContainer.appendChild(readBtn);
+    readBtn.addEventListener("click", () => {
+        if (readBtn.innerHTML === '<img src="../play.png">') {
+            chrome.runtime.sendMessage({ type: "readText", text: note });
+            readBtn.innerHTML = '<img src="../stop.png">'
+        } else if (readBtn.innerHTML === '<img src="../stop.png">') {
+            chrome.runtime.sendMessage({ type: "stopReading" });
+            readBtn.innerHTML = '<img src="../play.png">';
+        }
+    })
+    chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+        if (message.type === "readingEnd") {
+            readBtn.innerHTML = '<img src="../play.png">';
+        }
+    });
+}
 //download notes of current webpage in txt file
 let downloadButton = document.getElementById("download-notes");
 downloadButton.addEventListener("click", () => {

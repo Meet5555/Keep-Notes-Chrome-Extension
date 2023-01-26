@@ -21,7 +21,8 @@
         "tabs",
         "nativeMessaging",
         "alarms",
-        "notifications"
+        "notifications",
+        "tts"
     ],
     "content_scripts": [
         {

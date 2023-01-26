@@ -25,4 +25,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             }
         });
     }
+    else if (message.type === "readText") {
+        let text = message.text;
+        chrome.tts.speak(text, {
+            onEvent: function (event) {
+                if (event.type === 'end') {
+                    chrome.runtime.sendMessage({ type: "readingEnd" });
+                }
+            }
+        })
+    }
+    else if (message.type === "stopReading") {
+        chrome.tts.stop();
+    }
 })
