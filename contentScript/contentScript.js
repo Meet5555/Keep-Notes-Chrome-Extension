@@ -1,12 +1,12 @@
-window.onload = highlightText;
+// window.onload = highlightText;
 
-function highlightText() {
+// function highlightText() {
 
-}
+// }
 
-
+let text = "";
 document.addEventListener("mouseup", (event) => {
-    let text = window.getSelection().toString().trim();
+    text = window.getSelection().toString().trim();
     let addNoteBtn = document.getElementById("add-note-btn");
     if (!text) {
         if (addNoteBtn) {
@@ -21,9 +21,26 @@ document.addEventListener("mouseup", (event) => {
                 let btn = createAddNoteButton(event);
                 document.body.appendChild(btn);
             }
+            text = "";
         })
     }
 })
+
+document.addEventListener("mousedown", () => {
+    let addNoteBtn = document.getElementById("add-note-btn");
+    if (!text && addNoteBtn != null) {
+        addNoteBtn.remove();
+    }
+})
+
+function clearSelection() {
+    if (window.getSelection) {
+        window.getSelection().removeAllRanges();
+    }
+    else if (document.selection) {
+        document.selection.empty();
+    }
+}
 
 function createAddNoteButton(event) {
     let addNoteBtn = document.createElement("button");
@@ -44,18 +61,22 @@ function createAddNoteButton(event) {
             let endContainer = range.endContainer.parentElement.innerHTML;
             let endOffset = range.endOffset;
             let websiteURL = window.location.href;
+            let timestamp = new Date().toLocaleString();
             savedNotes.push({
                 websiteURL: websiteURL,
                 text: text,
                 startContainer: startContainer,
                 startOffset: startOffset,
                 endContainer: endContainer,
-                endOffset: endOffset
+                endOffset: endOffset,
+                timestamp: timestamp
             });
 
             chrome.storage.sync.set({ savedNotes: savedNotes });
             console.log(savedNotes);
             chrome.runtime.sendMessage({ type: "noteSaved" });
+            clearSelection();
+            addNoteBtn.remove();
             // highlightText();
         });
     })

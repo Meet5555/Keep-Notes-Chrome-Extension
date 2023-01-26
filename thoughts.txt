@@ -1,24 +1,15 @@
-floating button when select the text -- img
-
-
 popup buttons - notesshow and all design
+icon - floating button when select the text -- img
 hightlight saved text
-
-
-icon
-
-
+context menu to view all notes of website --> two buttons and sliding bar for the same
 delete
-context menu to view all notes of website
 if note already exsists XXX
-give all notes in options page
-save time also
-
+read the note and google search the note
 add all the comments at every steps
 
 
-bugs : notification coming more then once
-remove btn on new selection
+bugs : 
+when selecting some text and on addnote it is removing current btn and giving new btn
 
 
 
@@ -29,3 +20,5 @@ add note working only after second click
 not getting last note when set note in different note
 note saved mesage --- notification
 hostname
+notification coming more then once
+save time also

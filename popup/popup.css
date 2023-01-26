@@ -1,4 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Palanquin:wght@500&family=Raleway:wght@500&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: max-content;
+    padding: 10px 5px;
+}
+
+.heading {
+    display: flex;
+    width: 55%;
+    height: 40px;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px auto;
+}
+
+hr {
+    width: 90%;
+    margin: auto;
+    height: 3px;
+    border: 0;
+    background-color: limegreen;
+}
+.heading img {
+    width: 43px;
+    height: 100%;
+    border-radius: 50%;
+}
+.heading h1 {
+    font-size: 28px;
+}
+
+#note-container {
+    width: 90%;
+    margin: 10px auto;
+    /* background-color: blue; */
+    padding: 10px;
+}
+#note-container h3 {
+    font-size: 18px;
+    font-weight: 700;
+}
+#note-container p {
+    background-color: #59f159;
+    padding: 8px;
+    padding-bottom: 20px;
+    border-radius: 3px;
+    margin: 7px 0;
+    /* font-family: "Montserrat", sans-serif; */
+    /* font-family: "Palanquin", sans-serif; */
+    font-size: 14px;
+    font-family: "Raleway", sans-serif;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+#timestamp {
+    position: absolute;
+    bottom: 0px;
+    right: 5px;
+}
+.btns {
+    display: flex;
+    justify-content: space-around;
+    width: 90%;
+    margin: auto;
+}
+.btns button {
+    font-family: "Palanquin", sans-serif;
+    outline: none;
+    border: 2px solid #59f159;
+    background-color: white;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 18px;
+    flex-basis: 45%;
+    transition: 0.3s;
+    font-weight: bold;
+}
+.btns button:hover {
+    background-color: limegreen;
+    color: whitesmoke;
+}
+
+.hide {
+    display: none;
 }
