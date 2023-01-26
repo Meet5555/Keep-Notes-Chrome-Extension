@@ -1,6 +1,7 @@
 icon - floating button when select the text -- img
- // google search the note
-hightlight saved text + delete notes
+// google search the note
+hightlight saved text
+
 context menu to view all notes of website || two buttons and sliding bar for the same
 
 add all the comments at every steps
@@ -32,3 +33,5 @@ solved bug : when selecting some text and on addnote it is removing current btn 
 popup buttons - notesshow and all design
 
 read the note in popup - bugs like when reading ends changing button to play or on start change it to stop, etc
+
+delete notes: added two new buttons for deleting page notes and deleting all the notes

@@ -1,43 +1,50 @@
+loadPopUp();
 // Retrive last note from current website and show it inside the popup
-chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
-    let currentTabId = response.tabId.toString();
-    let currentUrl = response.tabUrl;
-
-    chrome.storage.sync.get(['savedNotes'], (res) => {
-        let savedNotes = res.savedNotes;
-        if (!savedNotes) {
-            savedNotes = [];
-        }
-        if (savedNotes.length === 0) {
-            document.getElementById("download-all-notes").classList.add("hide");
-        }
-        else {
-            document.getElementById("download-all-notes").classList.remove("hide");
-        }
-        let lastNote = "";
-        let timestamp = ""
-        //Loop through savedNotes array with key of the object
-        for (let obj of savedNotes) {
-            // Check if the website URL of the current tab matches the key of the object in the array
-            if (obj.websiteURL === currentUrl) {
-                lastNote = obj.text;
-                timestamp = obj.timestamp;
+function loadPopUp() {
+    chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
+        let currentTabId = response.tabId.toString();
+        let currentUrl = response.tabUrl;
+        chrome.storage.sync.get(['savedNotes'], (res) => {
+            let savedNotes = res.savedNotes;
+            if (!savedNotes) {
+                savedNotes = [];
             }
-        }
-        if (lastNote === "") {
-            emptyNotes();
-            document.getElementById("download-notes").classList.add("hide");
-        } else {
-            showLastNote("Recent Note:", lastNote, timestamp);
-            document.getElementById("download-notes").classList.remove("hide");
-            readText(lastNote);
-        }
-    });
-})
+            if (savedNotes.length === 0) {
+                document.getElementById("download-all-notes").classList.add("hide");
+                document.getElementById("delete-all-notes").classList.add("hide");
+            }
+            else {
+                document.getElementById("download-all-notes").classList.remove("hide");
+                document.getElementById("delete-all-notes").classList.remove("hide");
+            }
+            let lastNote = "";
+            let timestamp = ""
+            //Loop through savedNotes array with key of the object
+            for (let obj of savedNotes) {
+                // Check if the website URL of the current tab matches the key of the object in the array
+                if (obj.websiteURL === currentUrl) {
+                    lastNote = obj.text;
+                    timestamp = obj.timestamp;
+                }
+            }
+            if (lastNote === "") {
+                emptyNotes();
+                document.getElementById("download-notes").classList.add("hide");
+                document.getElementById("delete-page-notes").classList.add("hide");
+            } else {
+                showLastNote("Recent Note:", lastNote, timestamp);
+                document.getElementById("download-notes").classList.remove("hide");
+                document.getElementById("delete-page-notes").classList.remove("hide");
+                readText(lastNote);
+            }
+        });
+    })
+}
 
 //When there is no notes on current website then this will show the emptyNotes message
 function emptyNotes() {
     let noteContainer = document.getElementById("note-container");
+    noteContainer.innerHTML = "";
     let h3 = document.createElement("h3");
     h3.textContent = `You have not saved any note on this website, Please select some text to add note!`
     noteContainer.appendChild(h3);
@@ -46,6 +53,7 @@ function emptyNotes() {
 //This function show the recent note on the current website which is saved by the user
 function showLastNote(heading, note, timestamp) {
     let noteContainer = document.getElementById("note-container");
+    noteContainer.innerHTML = "";
     let h3 = document.createElement("h3");
     h3.textContent = heading
     let p = document.createElement("p");
@@ -85,7 +93,6 @@ function readText(note) {
 let downloadButton = document.getElementById("download-notes");
 downloadButton.addEventListener("click", () => {
     chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
-        let currentTabId = response.tabId.toString();
         let currentUrl = response.tabUrl;
 
         chrome.storage.sync.get(['savedNotes'], (res) => {
@@ -113,7 +120,6 @@ downloadButton.addEventListener("click", () => {
         });
     });
 });
-
 
 //download all the notes from all website in txt file
 let downloadAllButton = document.getElementById("download-all-notes");
@@ -143,3 +149,37 @@ function downloadallNotes() {
         downloadLink.click();
     });
 }
+
+// Deleting page notes
+let deletePageNotes = document.getElementById("delete-page-notes");
+chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
+    let currentUrl = response.tabUrl;
+    deletePageNotes.addEventListener("click", () => {
+        chrome.storage.sync.get(['savedNotes'], (res) => {
+            let savedNotes = res.savedNotes;
+            if (!Array.isArray(savedNotes)) {
+                savedNotes = [];
+            }
+            for (let i = 0; i < savedNotes.length; i++) {
+                if (savedNotes[i].websiteURL === currentUrl) {
+                    let newNotes = savedNotes.filter(note => note.websiteURL !== currentUrl);
+                    chrome.storage.sync.set({ "savedNotes": newNotes });
+                    loadPopUp();
+                }
+            }
+        });
+    })
+});
+
+// Deleting all Notes
+let deleteAllNotes = document.getElementById("delete-all-notes");
+deleteAllNotes.addEventListener("click", () => {
+    chrome.storage.sync.get(['savedNotes'], (res) => {
+        let savedNotes = res.savedNotes;
+        if (!Array.isArray(savedNotes)) {
+            savedNotes = [];
+        }
+        chrome.storage.sync.set({ "savedNotes": [] });
+        loadPopUp();
+    });
+})

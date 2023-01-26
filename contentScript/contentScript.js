@@ -1,17 +1,20 @@
-// window.onload = highlightText;
+window.onload = highlightText();
 
-// function highlightText() {
-
-// }
-
-
-
-chrome.storage.onChanged.addListener(function (changes, namespace) {
-    if (changes.savedNotes) {
-        highlightText();
-    }
-});
-
+function highlightText() {
+    chrome.storage.sync.get("savedNotes", function (result) {
+        let savedNotes = result.savedNotes;
+        if (!Array.isArray(savedNotes)) {
+            return;
+        }
+        for (let note of savedNotes) {
+            if (note.websiteURL === window.location.href) {
+                let highlightedText = "<span class='highlight'>" + note.text + "</span>";
+                console.log(highlightedText);
+                document.body.innerHTML = document.body.innerHTML.replace(new RegExp(note.text, "g"), highlightedText);
+            }
+        }
+    });
+}
 
 let text = "";
 document.addEventListener("mouseup", (event) => {
@@ -56,7 +59,7 @@ function clearSelection() {
 function createAddNoteButton(event) {
     let addNoteBtn = document.createElement("button");
     addNoteBtn.id = "add-note-btn";
-    // addNoteBtn.innerHTML = '<img src="../icon.png" alt="ADD Note"/>';
+    // addNoteBtn.innerHTML = '<img src="../edit.png" alt="ADD Note">';
     addNoteBtn.innerHTML = "ADD Note";
     addNoteBtn.addEventListener("click", () => {
         let text = window.getSelection().toString().trim();
@@ -67,9 +70,9 @@ function createAddNoteButton(event) {
             }
             let selection = window.getSelection();
             let range = selection.getRangeAt(0);
-            let startContainer = range.startContainer.parentElement.innerHTML;
+            let startContainer = range.startContainer.parentElement;
             let startOffset = range.startOffset;
-            let endContainer = range.endContainer.parentElement.innerHTML;
+            let endContainer = range.endContainer.parentElement;
             let endOffset = range.endOffset;
             let websiteURL = window.location.href;
             let timestamp = new Date().toLocaleString();
@@ -82,13 +85,12 @@ function createAddNoteButton(event) {
                 endOffset: endOffset,
                 timestamp: timestamp
             });
-
             chrome.storage.sync.set({ savedNotes: savedNotes });
             console.log(savedNotes);
             chrome.runtime.sendMessage({ type: "noteSaved" });
             clearSelection();
             document.body.removeChild(addNoteBtn);
-            // highlightText();
+            highlightText();
         });
     })
     // Get the position of the selected text
@@ -99,3 +101,35 @@ function createAddNoteButton(event) {
     addNoteBtn.style.top = y + "px";
     return addNoteBtn;
 }
+
+
+// all notes in aside
+// chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
+//     let currentUrl = response.tabUrl;
+//     chrome.storage.sync.get(['savedNotes'], (res) => {
+//         let savedNotes = res.savedNotes;
+//         console.log(savedNotes);
+//         if (!Array.isArray(savedNotes)) {
+//             return;
+//         }
+//         let notesContainer = document.createElement("div");
+//         notesContainer.id = "notes-container";
+//         let heading = document.createElement("h1");
+//         heading.id = "heading";
+//         heading.textContent = "Your Notes on this website";
+//         notesContainer.appendChild(heading)
+//         // Iterate through the savedNotes array
+//         for (let obj of savedNotes) {
+//             // Check if the website URL of the current tab matches the key of the object in the array
+//             if (obj.websiteURL === currentUrl) {
+//                 // Retrieve the value (the selection text) associated with that key
+//                 // notesText.push(obj.text);
+//                 let p = document.createElement("p");
+//                 p.className = "notes";
+//                 p.textContent = obj.text;
+//                 notesContainer.appendChild(p);
+//             }
+//         }
+//         document.body.appendChild(notesContainer);
+//     });
+// });

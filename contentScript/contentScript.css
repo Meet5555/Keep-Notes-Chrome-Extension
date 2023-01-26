@@ -1,3 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Palanquin:wght@500&family=Poppins&family=Raleway:wght@500&display=swap");
+
 #add-note-btn {
     position: absolute;
+}
+
+#notes-container {
+    width: 40vw;
+    height: 80vh;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 0;
+    left: 5%;
+}
+#notes-container #heading {
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    border-bottom: 2px dashed green;
+}
+.notes {
+    background-color: #59f159;
+    width: 90%;
+    margin: 10px auto;
+    padding: 4px 11px;
+    border-radius: 18px;
+}
+.highlight {
+    background-color: #59f159 !important;
 }
