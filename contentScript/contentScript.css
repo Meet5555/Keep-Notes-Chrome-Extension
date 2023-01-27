@@ -57,7 +57,7 @@ body {
     background-color: #59f159;
     width: 90%;
     margin: 10px auto;
-    padding: 4px 20px;
+    padding: 10px 20px;
     border-radius: 18px;
     position: relative;
     font-family: "Poppins", sans-serif;
@@ -122,4 +122,11 @@ body {
 
 .viewPageNotes:hover {
     left: 0%;
+}
+
+.noteTimestamp {
+    position: absolute;
+    bottom: 0px;
+    right: 14px;
+    font-size: 10px;
 }

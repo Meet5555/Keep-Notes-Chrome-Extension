@@ -95,7 +95,7 @@ function createAddNoteButton(event) {
             // some function to load the floating window and highlight the text
             document.body.removeChild(addNoteBtn);
             clearSelection();
-            highlightText();
+            // highlightText();
             floatingWindow();
         });
     })
@@ -174,6 +174,10 @@ function floatingWindow() {
                     });
                     p.className = "notes";
                     p.textContent = obj.text;
+                    let small = document.createElement("small");
+                    small.className = "noteTimestamp";
+                    small.textContent = `saved on: ` + obj.timestamp;
+                    p.appendChild(small);
                     p.appendChild(removeNote);
                     container.appendChild(p);
                 }
