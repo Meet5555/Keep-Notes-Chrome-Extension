@@ -101,10 +101,14 @@ hr {
     transition: 0.3s;
     font-weight: bold;
 }
-.btns button:hover,
-.delete-btns button:hover {
+.btns button:hover {
     background-color: limegreen;
     color: whitesmoke;
+}
+.delete-btns button:hover {
+    background-color: #f44336;
+    color: white;
+    border-color: #f44336;
 }
 .delete-btns {
     margin-top: 5px;

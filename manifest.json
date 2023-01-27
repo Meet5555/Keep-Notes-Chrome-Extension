@@ -4,12 +4,12 @@
     "version": "1.0.0",
     "description": "Highlight and Save notes on any website and download it whenever you want!",
     "icons": {
-        "16": "icon.png",
-        "48": "icon.png",
-        "128": "icon.png"
+        "16": "images/icon.png",
+        "48": "images/icon.png",
+        "128": "images/icon.png"
     },
     "action": {
-        "default_icon": "icon.png",
+        "default_icon": "images/icon.png",
         "default_title": "Keep Notes",
         "default_popup": "popup/popup.html"
     },

@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             if (alarm.name === "noteSaved" && count == 1) {
                 this.registration.showNotification("Keep Notes", {
                     body: "Your notes have been added! Pls click on extension popup to view your notes.",
-                    icon: "icon.png"
+                    icon: "/images/icon.png"
                 })
             }
         });

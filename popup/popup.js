@@ -71,20 +71,20 @@ function readText(note) {
     let noteContainer = document.getElementById("note-container");
     let readBtn = document.createElement("button");
     readBtn.id = "read-btn";
-    readBtn.innerHTML = '<img src="../play.png">';
+    readBtn.innerHTML = '<img src="../images/play.png">';
     noteContainer.appendChild(readBtn);
     readBtn.addEventListener("click", () => {
-        if (readBtn.innerHTML === '<img src="../play.png">') {
+        if (readBtn.innerHTML === '<img src="../images/play.png">') {
             chrome.runtime.sendMessage({ type: "readText", text: note });
-            readBtn.innerHTML = '<img src="../stop.png">'
-        } else if (readBtn.innerHTML === '<img src="../stop.png">') {
+            readBtn.innerHTML = '<img src="../images/stop.png">'
+        } else if (readBtn.innerHTML === '<img src="../images/stop.png">') {
             chrome.runtime.sendMessage({ type: "stopReading" });
-            readBtn.innerHTML = '<img src="../play.png">';
+            readBtn.innerHTML = '<img src="../images/play.png">';
         }
     })
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         if (message.type === "readingEnd") {
-            readBtn.innerHTML = '<img src="../play.png">';
+            readBtn.innerHTML = '<img src="../images/play.png">';
         }
     });
 }
@@ -155,31 +155,46 @@ let deletePageNotes = document.getElementById("delete-page-notes");
 chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
     let currentUrl = response.tabUrl;
     deletePageNotes.addEventListener("click", () => {
-        chrome.storage.sync.get(['savedNotes'], (res) => {
-            let savedNotes = res.savedNotes;
-            if (!Array.isArray(savedNotes)) {
-                savedNotes = [];
-            }
-            for (let i = 0; i < savedNotes.length; i++) {
-                if (savedNotes[i].websiteURL === currentUrl) {
-                    let newNotes = savedNotes.filter(note => note.websiteURL !== currentUrl);
-                    chrome.storage.sync.set({ "savedNotes": newNotes });
-                    loadPopUp();
+        if (confirm("Are you sure you want to delete all the notes of current webpage?")) {
+            chrome.storage.sync.get(['savedNotes'], (res) => {
+                let savedNotes = res.savedNotes;
+                if (!Array.isArray(savedNotes)) {
+                    savedNotes = [];
                 }
-            }
-        });
+                for (let i = 0; i < savedNotes.length; i++) {
+                    if (savedNotes[i].websiteURL === currentUrl) {
+                        let newNotes = savedNotes.filter(note => note.websiteURL !== currentUrl);
+                        chrome.storage.sync.set({ "savedNotes": newNotes });
+                    }
+                }
+            });
+            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, { type: "callFloatingWindow" });
+            });
+        }
     })
 });
 
 // Deleting all Notes
 let deleteAllNotes = document.getElementById("delete-all-notes");
 deleteAllNotes.addEventListener("click", () => {
-    chrome.storage.sync.get(['savedNotes'], (res) => {
-        let savedNotes = res.savedNotes;
-        if (!Array.isArray(savedNotes)) {
-            savedNotes = [];
-        }
-        chrome.storage.sync.set({ "savedNotes": [] });
-        loadPopUp();
-    });
+    if (confirm("Are you sure you want to delete all the notes of all webpage?")) {
+        chrome.storage.sync.get(['savedNotes'], (res) => {
+            let savedNotes = res.savedNotes;
+            if (!Array.isArray(savedNotes)) {
+                savedNotes = [];
+            }
+            chrome.storage.sync.set({ "savedNotes": [] });
+        });
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, { type: "callFloatingWindow" });
+        });
+    }
 })
+
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    for (key in changes) {
+        var storageChange = changes[key];
+        loadPopUp();
+    }
+});

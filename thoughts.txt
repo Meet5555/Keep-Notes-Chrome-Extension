@@ -1,14 +1,13 @@
-icon - floating button when select the text -- img
-// google search the note
+image instead of add note
 hightlight saved text
 
-context menu to view all notes of website || two buttons and sliding bar for the same
+remove startContainer nd all that stuff
 
 add all the comments at every steps
 
+
 bugs : 
-
-
+        sometimes floating window loads different url notes
 
 solved::
 
@@ -34,4 +33,8 @@ popup buttons - notesshow and all design
 
 read the note in popup - bugs like when reading ends changing button to play or on start change it to stop, etc
 
-delete notes: added two new buttons for deleting page notes and deleting all the notes
+delete notes: added two new buttons for deleting page notes and deleting all the notes also showing the alert box
+
+change font family and other styles for the p tag as in popup + floating window and buttons and sliding bar for the same
+
+when removing all page notes from popup there is no change in floatingWindow : solved using chrome.tabs.query and sending message to content script to load floatingWindow again
