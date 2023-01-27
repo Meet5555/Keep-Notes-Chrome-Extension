@@ -38,7 +38,7 @@
 
 -   <p>on the left side of webpage you will get one button like this and on click of this button you can see all notes of that website in floating window like this:</p>
     <img src="images/ss5.png" alt="Screenshot" width="300px" style="display:inline;">
-    <img src="images/ss6.png" alt="Screenshot" width="400px" style="display:inline;">
+    <img src="images/ss6.png" alt="Screenshot" width="400px" style="display:inline;margin-left:20px">
 
 <br>
 
