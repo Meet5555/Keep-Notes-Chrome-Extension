@@ -113,7 +113,7 @@ let viewPageNotes = document.createElement("div");
 viewPageNotes.className = "viewPageNotes";
 viewPageNotes.innerHTML = "<span>View Page Notes</span>"
 document.querySelector("body").appendChild(viewPageNotes);
-
+showViewNoteBtn();
 viewPageNotes.addEventListener("click", () => {
     // floatingWindow();
     let notesContainer = document.getElementById("notes-container");
@@ -193,4 +193,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "callFloatingWindow") {
         floatingWindow();
     }
+    else if (message.type === "showViewNote") {
+        showViewNoteBtn();
+    }
 });
+
+function showViewNoteBtn() {
+    chrome.storage.sync.get("count", (res) => {
+        let count = res.count;
+        if (count === 0) {
+            document.querySelector(".viewPageNotes").style.display = "none";
+        }
+        else {
+            document.querySelector(".viewPageNotes").style.display = "block";
+        }
+    })
+}

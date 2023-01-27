@@ -203,3 +203,43 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
         loadPopUp();
     }
 });
+
+// Logic to show or hide View Page Notes button on click of button inside of popup
+let showViewNote = document.getElementById("show-view-note");
+showViewNote.addEventListener("click", () => {
+    chrome.storage.sync.get("count", (res) => {
+        let count = res.count;
+        if (!count) {
+            chrome.storage.sync.set({ count: 1 });
+            document.getElementById("toggler").classList.add("toggler-right");
+            document.getElementById("toggler").classList.remove("toggler-left");
+            document.getElementById("show-view-note").style.backgroundColor = "#59f159";
+        }
+        if (count === 0) {
+            chrome.storage.sync.set({ count: 1 });
+        }
+        else {
+            chrome.storage.sync.set({ count: 0 });
+            document.getElementById("toggler").classList.add("toggler-left");
+            document.getElementById("toggler").classList.remove("toggler-right");
+            document.getElementById("show-view-note").style.backgroundColor = "grey";
+        }
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, { type: "showViewNote" });
+        });
+    })
+})
+
+chrome.storage.sync.get("count", (res) => {
+    let count = res.count;
+    if (count === 0) {
+        document.getElementById("toggler").classList.add("toggler-left");
+        document.getElementById("toggler").classList.remove("toggler-right");
+        document.getElementById("show-view-note").style.backgroundColor = "grey";
+    }
+    else {
+        document.getElementById("toggler").classList.add("toggler-right");
+        document.getElementById("toggler").classList.remove("toggler-left");
+        document.getElementById("show-view-note").style.backgroundColor = "#59f159";
+    }
+})

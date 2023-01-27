@@ -1,13 +1,13 @@
 to do:
 
-readme and description
 view page not button option that show this button or not show
 hightlight saved text
 
 
 
 
-bugs : sometimes floating window loads different url notes
+bugs : sometimes floating window loads different url notes 
+        when setting viewPageNotes button off and after reload off page,it tooks two click to show the button again
 
 
 solved bugs and features::
@@ -44,3 +44,5 @@ add note btn and show notes in stack overflow
 background in add note btn
 
 all the comments at every steps
+
+readme and description
