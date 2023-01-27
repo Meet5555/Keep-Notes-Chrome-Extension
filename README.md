@@ -58,7 +58,6 @@
 -   Follow the instructions mentioned [here](https://developer.chrome.com/docs/extensions/mv3/getstarted/#manifest)
 
 <br>
-> Hope you liked it!
-> <br>
-> If you have any issue with working of extension or want to give feedback then you can contact me at bhimanimeet55555@gmail.com > <br>
-> Thank you for visit!
+> Hope you liked it! If you have any issue with working of extension or want to give feedback then you can contact me at bhimanimeet55555@gmail.com
+
+-   Thank you for visit!
