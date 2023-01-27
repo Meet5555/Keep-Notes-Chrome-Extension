@@ -11,6 +11,7 @@
 -   View notes of current website in floating window after clicking on "view page notes" button
 -   Remove any single note from floating window
 -   Listen the recent note in popup using play button
+-   You can hide floating view note button from the popup
 
 ## Screenshots
 
@@ -52,6 +53,10 @@
     <img src="images/ss7.png" alt="Screenshot" width="500px">
 
 <br>
+
+-   <p>You can also hide the floating view note button from the popup of extension</p>
+    <img src="images/ss9.png" alt="Screenshot" width="500px">
+    <img src="images/ss10.png" alt="Screenshot" width="500px">
 
 ## How to install
 
