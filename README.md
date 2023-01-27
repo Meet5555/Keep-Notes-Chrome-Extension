@@ -37,8 +37,9 @@
 <br>
 
 -   <p>on the left side of webpage you will get one button like this and on click of this button you can see all notes of that website in floating window like this:</p>
-    <img src="images/ss5.png" alt="Screenshot" width="300px" style="display:inline;">
-    <img src="images/ss6.png" alt="Screenshot" width="400px" style="display:inline;margin-left:20px">
+    <img src="images/ss5.png" alt="Screenshot" width="500px">
+    <p>Floating window looks like:</p>
+    <img src="images/ss6.png" alt="Screenshot" width="500px" >
 
 <br>
 
@@ -61,5 +62,5 @@
 
 ## Contact Me
 
-- Hope you liked it! If you have any issue with working of extension or want to give feedback then you can contact me at bhimanimeet55555@gmail.com
-- Thank you for visit!
+-   Hope you liked it! If you have any issue with working of extension or want to give feedback then you can contact me at bhimanimeet55555@gmail.com
+-   Thank you for visit!
