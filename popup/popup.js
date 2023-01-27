@@ -1,8 +1,7 @@
 loadPopUp();
-// Retrive last note from current website and show it inside the popup
+// Retrive last note saved on current website and show it inside the popup
 function loadPopUp() {
     chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
-        let currentTabId = response.tabId.toString();
         let currentUrl = response.tabUrl;
         chrome.storage.sync.get(['savedNotes'], (res) => {
             let savedNotes = res.savedNotes;
@@ -50,7 +49,7 @@ function emptyNotes() {
     noteContainer.appendChild(h3);
 }
 
-//This function show the recent note on the current website which is saved by the user
+//This function show the recently saved note on the current website
 function showLastNote(heading, note, timestamp) {
     let noteContainer = document.getElementById("note-container");
     noteContainer.innerHTML = "";
@@ -66,7 +65,7 @@ function showLastNote(heading, note, timestamp) {
     noteContainer.appendChild(p);
 }
 
-//Read text 
+//Read text on clock of button and also stop reading
 function readText(note) {
     let noteContainer = document.getElementById("note-container");
     let readBtn = document.createElement("button");
@@ -91,10 +90,11 @@ function readText(note) {
 
 //download notes of current webpage in txt file
 let downloadButton = document.getElementById("download-notes");
-downloadButton.addEventListener("click", () => {
+downloadButton.addEventListener("click", downloadNotes);
+
+function downloadNotes() {
     chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
         let currentUrl = response.tabUrl;
-
         chrome.storage.sync.get(['savedNotes'], (res) => {
             let savedNotes = res.savedNotes;
             if (!Array.isArray(savedNotes)) {
@@ -111,6 +111,7 @@ downloadButton.addEventListener("click", () => {
             }
             // Extract the hostname from the currentUrl
             let hostname = new URL(currentUrl).hostname;
+            //Create Blob object and then URL to download txt file
             let blob = new Blob([notesText], { type: 'text/plain' });
             let url = URL.createObjectURL(blob);
             let a = document.createElement('a');
@@ -119,7 +120,7 @@ downloadButton.addEventListener("click", () => {
             a.click();
         });
     });
-});
+}
 
 //download all the notes from all website in txt file
 let downloadAllButton = document.getElementById("download-all-notes");
@@ -142,6 +143,7 @@ function downloadallNotes() {
         for (let url in notesByWebsite) {
             notesText += "Notes on\t " + url + "\t are --> \n\n" + notesByWebsite[url] + "\n\n";
         }
+        //Create Blob object and then URL to download txt file
         let notesBlob = new Blob([notesText], { type: "text/plain;charset=utf-8" });
         let downloadLink = document.createElement("a");
         downloadLink.href = URL.createObjectURL(notesBlob);
@@ -168,6 +170,7 @@ chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
                     }
                 }
             });
+            // To change the content in floating window send message to content script
             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                 chrome.tabs.sendMessage(tabs[0].id, { type: "callFloatingWindow" });
             });
@@ -186,12 +189,14 @@ deleteAllNotes.addEventListener("click", () => {
             }
             chrome.storage.sync.set({ "savedNotes": [] });
         });
+        // To change the content in floating window send message to content script
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, { type: "callFloatingWindow" });
         });
     }
 })
 
+// When change is storage i.e. deleting the notes then reload the popup body
 chrome.storage.onChanged.addListener(function (changes, namespace) {
     for (key in changes) {
         var storageChange = changes[key];

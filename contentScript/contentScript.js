@@ -1,25 +1,18 @@
-window.onload = highlightText();
+// window.onload = highlightText();
 
-function highlightText() {
-    // chrome.storage.sync.get("savedNotes", function (result) {
-    //     let savedNotes = result.savedNotes;
-    //     if (!Array.isArray(savedNotes)) {
-    //         return;
-    //     }
-    //     for (let note of savedNotes) {
-    //         if (note.websiteURL === window.location.href) {
-    //             let highlightedText = "<span class='highlight'>" + note.text + "</span>";
-    //             console.log(highlightedText);
-    //             document.body.innerHTML = document.body.innerHTML.replace(new RegExp(note.text, "g"), highlightedText);
-    //         }
-    //     }
-    // });
-}
+// Highlight all the previously stored notes
+// function highlightText() {
+
+// }
+
 
 let text = "";
+// After selection this event is called and create the button to add a note
 document.addEventListener("mouseup", (event) => {
+    // store value of selected text inside text variable
     text = window.getSelection().toString().trim();
     let addNoteBtn = document.getElementById("add-note-btn");
+    // If not selected any text and add note button is there then remove it
     if (!text) {
         if (addNoteBtn) {
             document.body.removeChild(addNoteBtn);
@@ -29,6 +22,7 @@ document.addEventListener("mouseup", (event) => {
     else {
         chrome.runtime.sendMessage({ type: "getTabId" }, (response) => {
             let tabId = response.tabId.toString();
+            // Create add note button and append it to body
             if (!addNoteBtn) {
                 let btn = createAddNoteButton(event);
                 document.body.appendChild(btn);
@@ -38,15 +32,18 @@ document.addEventListener("mouseup", (event) => {
     }
 })
 
+// This event is called whenever we start new selection without doing any changes in previous selection
 document.addEventListener("mousedown", (event) => {
     let addNoteBtn = document.getElementById("add-note-btn");
     if (!text && addNoteBtn != null) {
+        // if mouse click is not on the add not button then it is new selection started so remove add note button
         if (event.target.id != "add-note-btn" && event.target.id != "highlighter") {
             document.body.removeChild(addNoteBtn);
         }
     }
 })
 
+// To clear selection when note is added or any other changes
 function clearSelection() {
     if (window.getSelection) {
         window.getSelection().removeAllRanges();
@@ -56,14 +53,23 @@ function clearSelection() {
     }
 }
 
+// adding font-awesome css to head 
+var link = document.createElement("link");
+link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css";
+link.type = "text/css";
+link.rel = "stylesheet";
+document.head.appendChild(link);
+
+// creates add note button and position it according to selection and mouseup event
 function createAddNoteButton(event) {
     let addNoteBtn = document.createElement("button");
     addNoteBtn.id = "add-note-btn";
     let span = document.createElement("span");
-    span.className = "fas fa-highlighter";
-    span.id = "highlighter"
+    span.className = "fas fa-highlighter"; // font awesome icon 
+    span.id = "highlighter";
     addNoteBtn.appendChild(span);
-    // addNoteBtn.innerHTML = "ADD Note";
+
+    // on click of add note button note is added to the storage
     addNoteBtn.addEventListener("click", () => {
         let text = window.getSelection().toString().trim();
         chrome.storage.sync.get("savedNotes", function (result) {
@@ -71,50 +77,50 @@ function createAddNoteButton(event) {
             if (!Array.isArray(savedNotes)) {
                 savedNotes = [];
             }
-
-
-            let selection = window.getSelection();
-            let range = selection.getRangeAt(0);
-            let startContainer = range.startContainer.parentElement;
-            let startOffset = range.startOffset;
-            let endContainer = range.endContainer.parentElement;
-            let endOffset = range.endOffset;
-
-
+            // let selection = window.getSelection();
+            // let range = selection.getRangeAt(0);
+            // let startContainer = range.startContainer.parentElement;
+            // let startOffset = range.startOffset;
+            // let endContainer = range.endContainer.parentElement;
+            // let endOffset = range.endOffset;
             let websiteURL = window.location.href;
             let timestamp = new Date().toLocaleString();
             savedNotes.push({
                 websiteURL: websiteURL,
                 text: text,
-
-
-                startContainer: startContainer,
-                startOffset: startOffset,
-                endContainer: endContainer,
-                endOffset: endOffset,
-
-
                 timestamp: timestamp
             });
             chrome.storage.sync.set({ savedNotes: savedNotes });
-            console.log(savedNotes);
             chrome.runtime.sendMessage({ type: "noteSaved" });
-            clearSelection();
+            // some function to load the floating window and highlight the text
             document.body.removeChild(addNoteBtn);
+            clearSelection();
             highlightText();
             floatingWindow();
         });
     })
     // Get the position of the selected text
     let x = event.pageX + 5;
-    let y = event.pageY;
+    let y = event.pageY - 20;
     // Position the button next to the selected text
     addNoteBtn.style.left = x + "px";
     addNoteBtn.style.top = y + "px";
     return addNoteBtn;
 }
 
-// all notes in floatingWindow
+
+let viewPageNotes = document.createElement("div");
+viewPageNotes.className = "viewPageNotes";
+viewPageNotes.innerHTML = "<span>View Page Notes</span>"
+document.querySelector("body").appendChild(viewPageNotes);
+
+viewPageNotes.addEventListener("click", () => {
+    // floatingWindow();
+    let notesContainer = document.getElementById("notes-container");
+    notesContainer.classList.toggle("hide");
+})
+
+// show all notes in floatingWindow when view page not button is clicked
 floatingWindow();
 function floatingWindow() {
     let notesContainer = document.getElementById("notes-container");
@@ -125,7 +131,6 @@ function floatingWindow() {
         let currentUrl = response.tabUrl;
         chrome.storage.sync.get(['savedNotes'], (res) => {
             let savedNotes = res.savedNotes;
-            console.log(savedNotes);
             if (!Array.isArray(savedNotes)) {
                 return;
             }
@@ -178,27 +183,10 @@ function floatingWindow() {
     });
 }
 
-let viewPageNotes = document.createElement("div");
-viewPageNotes.className = "viewPageNotes";
-viewPageNotes.innerHTML = "<span>View Page Notes</span>"
-document.querySelector("body").appendChild(viewPageNotes);
-
-viewPageNotes.addEventListener("click", () => {
-    // floatingWindow();
-    let notesContainer = document.getElementById("notes-container");
-    notesContainer.classList.toggle("hide");
-})
 
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "callFloatingWindow") {
-        console.log('callFloatingWindow');
         floatingWindow();
     }
 });
-
-var link = document.createElement("link");
-link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css";
-link.type = "text/css";
-link.rel = "stylesheet";
-document.head.appendChild(link);

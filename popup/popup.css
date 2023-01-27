@@ -32,11 +32,13 @@ hr {
     border: 0;
     background-color: limegreen;
 }
+
 .heading img {
     width: 43px;
     height: 100%;
     border-radius: 50%;
 }
+
 .heading h1 {
     font-size: 28px;
     font-family: "Poppins", sans-serif;
@@ -48,10 +50,12 @@ hr {
     padding: 10px;
     position: relative;
 }
+
 #note-container h3 {
     font-size: 18px;
     font-weight: 700;
 }
+
 #note-container p {
     background-color: #59f159;
     padding: 8px;
@@ -63,11 +67,13 @@ hr {
     line-height: 1.5;
     position: relative;
 }
+
 #timestamp {
     position: absolute;
     bottom: 0px;
     right: 5px;
 }
+
 #note-container #read-btn {
     cursor: pointer;
     position: absolute;
@@ -78,9 +84,11 @@ hr {
     outline: none;
     border-radius: 8px;
 }
+
 #read-btn img {
     width: 20px;
 }
+
 .btns,
 .delete-btns {
     display: flex;
@@ -88,6 +96,7 @@ hr {
     width: 90%;
     margin: 20px auto 5px;
 }
+
 .btns button,
 .delete-btns button {
     font-family: "Palanquin", sans-serif;
@@ -101,18 +110,22 @@ hr {
     transition: 0.3s;
     font-weight: bold;
 }
+
 .btns button:hover {
     background-color: limegreen;
     color: whitesmoke;
 }
+
 .delete-btns button:hover {
     background-color: #f44336;
     color: white;
     border-color: #f44336;
 }
+
 .delete-btns {
     margin-top: 5px;
 }
+
 .hide {
     display: none;
 }
