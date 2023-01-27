@@ -161,6 +161,7 @@ hr {
     border-radius: 50%;
     padding: 4px;
     transition: all 2s ease-in-out;
+    border: 1px solid black;
 }
 
 .toggler-left {
