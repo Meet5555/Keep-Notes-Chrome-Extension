@@ -5,7 +5,7 @@
 
 // }
 
-
+chrome.storage.sync.set({ savedNotes: [] });
 let text = "";
 // After selection this event is called and create the button to add a note
 document.addEventListener("mouseup", (event) => {
