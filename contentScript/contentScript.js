@@ -1,16 +1,31 @@
 // window.onload = highlightText();
 
-// Highlight all the previously stored notes
-// function highlightText() {
-
-// }
+// Highlight stored notes
+function highlightText(text) {
+    let span = document.createElement("span");
+    span.style.backgroundColor = "#59f159";
+    if (text.rangeCount) {
+        try {
+            let range = text.getRangeAt(0).cloneRange();
+            range.surroundContents(span);
+            text.removeAllRanges();
+            text.addRange(range);
+        } catch (e) {
+            console.log("can not highlight text because it contains some html tags inside it");
+        }
+    }
+}
 
 chrome.storage.sync.set({ savedNotes: [] });
 let text = "";
 // After selection this event is called and create the button to add a note
 document.addEventListener("mouseup", (event) => {
     // store value of selected text inside text variable
-    text = window.getSelection().toString().trim();
+    text = window.getSelection()
+    if (text) {
+        highlightText(text);
+    }
+    text = text.toString().trim();
     let addNoteBtn = document.getElementById("add-note-btn");
     // If not selected any text and add note button is there then remove it
     if (!text) {
@@ -54,7 +69,7 @@ function clearSelection() {
 }
 
 // adding font-awesome css to head 
-var link = document.createElement("link");
+let link = document.createElement("link");
 link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css";
 link.type = "text/css";
 link.rel = "stylesheet";
@@ -91,6 +106,7 @@ function createAddNoteButton(event) {
                 timestamp: timestamp
             });
             chrome.storage.sync.set({ savedNotes: savedNotes });
+
             chrome.runtime.sendMessage({ type: "noteSaved" });
             // some function to load the floating window and highlight the text
             document.body.removeChild(addNoteBtn);
