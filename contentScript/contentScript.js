@@ -48,15 +48,15 @@ document.addEventListener("mouseup", (event) => {
 })
 
 // This event is called whenever we start new selection without doing any changes in previous selection
-document.addEventListener("mousedown", (event) => {
-    let addNoteBtn = document.getElementById("add-note-btn");
-    if (!text && addNoteBtn != null) {
-        // if mouse click is not on the add not button then it is new selection started so remove add note button
-        if (event.target.id != "add-note-btn" && event.target.id != "highlighter") {
-            document.body.removeChild(addNoteBtn);
-        }
-    }
-})
+// document.addEventListener("mousedown", (event) => {
+//     let addNoteBtn = document.getElementById("add-note-btn");
+//     if (!text && addNoteBtn != null) {
+//         // if mouse click is not on the add not button then it is new selection started so remove add note button
+//         if (event.target.id != "add-note-btn" && event.target.id != "highlighter") {
+//             document.body.removeChild(addNoteBtn);
+//         }
+//     }
+// })
 
 // To clear selection when note is added or any other changes
 function clearSelection() {
