@@ -1,20 +1,20 @@
 // window.onload = highlightText();
 
 // Highlight stored notes
-function highlightText(text) {
-    let span = document.createElement("span");
-    span.style.backgroundColor = "#59f159";
-    if (text.rangeCount) {
-        try {
-            let range = text.getRangeAt(0).cloneRange();
-            range.surroundContents(span);
-            text.removeAllRanges();
-            text.addRange(range);
-        } catch (e) {
-            console.log("can not highlight text because it contains some html tags inside it");
-        }
-    }
-}
+// function highlightText(text) {
+//     let span = document.createElement("span");
+//     span.style.backgroundColor = "#59f159";
+//     if (text.rangeCount) {
+//         try {
+//             let range = text.getRangeAt(0).cloneRange();
+//             range.surroundContents(span);
+//             text.removeAllRanges();
+//             text.addRange(range);
+//         } catch (e) {
+//             console.log("can not highlight text because it contains some html tags inside it");
+//         }
+//     }
+// }
 
 chrome.storage.sync.set({ savedNotes: [] });
 let text = "";
